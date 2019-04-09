@@ -20,6 +20,17 @@ class ProjectController extends Controller
     }
 
     /**
+     * Show a project
+     *
+     * @param Project $project
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function show(Project $project)
+    {
+        return view('projects.show', compact('project'));
+    }
+
+    /**
      * Store a project
      *
      * @param ProjectRequest $request
