@@ -59,12 +59,61 @@ class ProjectsTest extends TestCase
     }
 
     /** @test */
-    public function the_project_can_be_viewed()
+    public function the_guests_cannot_view_projects()
     {
+        $this->get('/projects')->assertRedirect('login');
+
         $project = factory(Project::class)->create();
+
+        $this->get($project->path)->assertRedirect('login');
+    }
+
+    /** @test */
+    public function the_project_can_be_viewed_from_his_owner()
+    {
+        $user = factory(User::class)->create();
+
+        $this->actingAs($user);
+
+        $project = factory(Project::class)->create(['owner_id' => $user->id]);
 
         $this->get($project->path)
             ->assertSee($project->title)
             ->assertSee($project->description);
+    }
+
+    /** @test */
+    public function the_project_can_not_be_viewed_from_another_user()
+    {
+        $this->actingAs(factory(User::class)->create());
+
+        $another_user = factory(User::class)->create();
+
+        $project = factory(Project::class)->create(['owner_id' => $another_user->id]);
+
+        $this->get($project->path)
+            ->assertDontSee($project->title)
+            ->assertDontSee($project->description)
+            ->assertStatus(403);
+    }
+
+    /** @test */
+    public function the_authenticated_user_can_view_only_his_projects_on_the_index()
+    {
+        $user = factory(User::class)->create();
+
+        $this->actingAs($user);
+
+        $project = factory(Project::class)->create(['owner_id' => $user->id]);
+
+        $this->get(route('projects.index'))
+            ->assertSee($project->title);
+
+        $another_user = factory(User::class)->create();
+
+        $another_project = factory(Project::class)->create(['owner_id' => $another_user->id]);
+
+        $this->get(route('projects.index'))
+            ->assertDontSee($another_project->title);
     }
 }

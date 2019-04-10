@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Project extends Model
@@ -24,5 +25,15 @@ class Project extends Model
     public function getPathAttribute()
     {
         return '/projects/' . $this->id;
+    }
+
+    /**
+     * The owner of the project
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function owner()
+    {
+        return $this->belongsTo(User::class);
     }
 }
