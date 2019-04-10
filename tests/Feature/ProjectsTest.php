@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\User;
 use Tests\TestCase;
 use App\Models\Project;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -12,25 +13,36 @@ class ProjectsTest extends TestCase
     use WithFaker, RefreshDatabase;
 
     /** @test */
-    public function an_user_can_create_a_project()
+    public function the_guests_cannot_create_a_project()
+    {
+        $project = factory(Project::class)->raw();
+
+        $this->post('/projects', $project)->assertRedirect('login');
+    }
+
+    /** @test */
+    public function the_authenticated_user_can_create_a_project()
     {
         $this->withoutExceptionHandling();
 
-        $attributes = [
-            'title' => $this->faker->name,
-            'description' => $this->faker->sentence,
-        ];
+        $user = factory(User::class)->create();
 
-        $this->post('/projects', $attributes)->assertRedirect('/projects');
+        $this->actingAs($user);
 
-        $this->assertDatabaseHas('projects', $attributes);
+        $project = factory(Project::class)->raw(['owner_id' => $user->id]);
 
-        $this->get('/projects', $attributes)->assertSee($attributes['title']);
+        $this->post('/projects', $project)->assertRedirect('/projects');
+
+        $this->assertDatabaseHas('projects', $project);
+
+        $this->get('/projects', $project)->assertSee($project['title']);
     }
 
     /** @test */
     public function a_project_requires_a_title()
     {
+        $this->actingAs(factory(User::class)->create());
+
         $project = factory(Project::class)->raw(['title' => '']);
 
         $this->post('/projects', $project)->assertSessionHasErrors(['title']);
@@ -39,13 +51,15 @@ class ProjectsTest extends TestCase
     /** @test */
     public function a_project_requires_a_description()
     {
+        $this->actingAs(factory(User::class)->create());
+
         $project = factory(Project::class)->raw(['description' => '']);
 
         $this->post('/projects', $project)->assertSessionHasErrors(['description']);
     }
 
     /** @test */
-    public function an_user_can_views_a_project()
+    public function the_project_can_be_viewed()
     {
         $project = factory(Project::class)->create();
 
