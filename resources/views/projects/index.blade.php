@@ -10,13 +10,7 @@
                 <button type="button" class="btn btn-primary">Create New Project</button>
             </a>
         </div>
-        @forelse($projects as $project)
-            <a href="{{ $project->path }}">
-                <h2>{{ $project->title }}</h2>
-            </a>
-        @empty
-            <p>No projects yet</p>
-        @endforelse
+        @include('projects._list-items')
     </div>
 
 @endsection
