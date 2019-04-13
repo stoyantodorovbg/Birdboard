@@ -8,7 +8,7 @@ use App\Models\Project;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class ProjectsTest extends TestCase
+class MenageProjectsTest extends TestCase
 {
     use WithFaker, RefreshDatabase;
 
@@ -29,9 +29,11 @@ class ProjectsTest extends TestCase
 
         $this->actingAs($user);
 
+        $this->get('/projects/create')->assertStatus(200);
+
         $project = factory(Project::class)->raw(['owner_id' => $user->id]);
 
-        $this->post('/projects', $project)->assertRedirect('/projects');
+        $this->post('/projects', $project);
 
         $this->assertDatabaseHas('projects', $project);
 
