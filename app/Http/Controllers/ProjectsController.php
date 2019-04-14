@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Project;
 use App\Http\Requests\ProjectRequest;
 
-class ProjectController extends Controller
+class ProjectsController extends Controller
 {
     /**
      * Lists projects
@@ -29,6 +29,8 @@ class ProjectController extends Controller
     public function show(Project $project)
     {
         $this->authorize('view', $project);
+
+        $project->load('tasks');
 
         return view('projects.show', compact('project'));
     }
