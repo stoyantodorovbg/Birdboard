@@ -43,7 +43,7 @@ class MenageProjectsTest extends TestCase
     /** @test */
     public function a_project_requires_a_title()
     {
-        $this->actingAs(factory(User::class)->create());
+        $this->authenticate();
 
         $project = factory(Project::class)->raw(['title' => '']);
 
@@ -53,7 +53,7 @@ class MenageProjectsTest extends TestCase
     /** @test */
     public function a_project_requires_a_description()
     {
-        $this->actingAs(factory(User::class)->create());
+        $this->authenticate();
 
         $project = factory(Project::class)->raw(['description' => '']);
 
@@ -73,21 +73,19 @@ class MenageProjectsTest extends TestCase
     /** @test */
     public function the_project_can_be_viewed_from_his_owner()
     {
-        $user = factory(User::class)->create();
-
-        $this->actingAs($user);
+        $user = $this->authenticate();
 
         $project = factory(Project::class)->create(['owner_id' => $user->id]);
 
         $this->get($project->path)
             ->assertSee($project->title)
-            ->assertSee($project->description);
+            ->assertSee(\Illuminate\Support\Str::limit($project->description, 70));
     }
 
     /** @test */
     public function the_project_can_not_be_viewed_from_another_user()
     {
-        $this->actingAs(factory(User::class)->create());
+        $this->authenticate();
 
         $another_user = factory(User::class)->create();
 
@@ -102,9 +100,7 @@ class MenageProjectsTest extends TestCase
     /** @test */
     public function the_authenticated_user_can_view_only_his_projects_on_the_index()
     {
-        $user = factory(User::class)->create();
-
-        $this->actingAs($user);
+        $user = $this->authenticate();
 
         $project = factory(Project::class)->create(['owner_id' => $user->id]);
 

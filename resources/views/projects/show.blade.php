@@ -13,8 +13,9 @@
                     <h2 class="text-grey text-lg font-normal mb-3">
                         Tasks
                     </h2>
-                    <div class="card ml-0 mb-2">Lorem ipsum</div>
-                    <div class="card ml-0 mb-2">Lorem ipsum</div>
+                    @foreach($project->tasks as $task)
+                        <div class="card ml-0 mb-2">{{ $task->body }}</div>
+                    @endforeach
                 </div>
                 <div class="mb-8 mr-3">
                     <h2 class="text-grey text-lg font-normal mb-3">

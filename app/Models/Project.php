@@ -36,4 +36,24 @@ class Project extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    /**
+     * The tasks of the project
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
+    }
+
+    /**
+     * Add a task to the project
+     *
+     * @param string $body
+     */
+    public function addTask(string $body)
+    {
+        $this->tasks()->create(['body' => $body]);
+    }
 }
