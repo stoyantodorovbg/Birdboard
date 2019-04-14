@@ -1,4 +1,4 @@
-<main class="md:flex md:flex-wrap -mx-2 mt-2">
+<main class="md:flex md:flex-wrap mt-2">
     @forelse($projects as $project)
         @include('projects._item')
     @empty
