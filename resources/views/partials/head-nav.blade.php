@@ -1,8 +1,14 @@
-<nav class="bg-white">
+<nav class="bg-white pl-3 pr-3">
     <div class="container mx-auto">
         <div class="flex justify-between items-center py-2">
-            <a class="navbar-brand" href="{{ url('/') }}">
-                {{ config('app.name', 'Laravel') }}
+            <a class="navbar-brand no-underline" href="{{ url('/') }}">
+                <i class="fa fa-dove text-blue-light"></i>
+                <span class="text-black text-lg font-bold">
+                    {{ config('app.name', 'Birdboard') }}
+                </span>
+                <span class="p-2 text-xs text-black">
+                    Feathery reminder
+                </span>
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                     aria-controls="navbarSupportedContent" aria-expanded="false"

@@ -4,12 +4,15 @@
 
 @section('content')
     <div>
-        <div class="items-center">
-            <h1 class="mt-3">My Projects</h1>
-            <a href="{{ route('projects.create') }}">
-                <button type="button" class="btn btn-primary">Create New Project</button>
+        <header class="flex justify-between items-center">
+            <h2 class="text-grey-darker text-sm font-thin">
+                My Projects
+            </h2>
+            <a class="button"
+                href="{{ route('projects.create') }}">
+                Create New Project
             </a>
-        </div>
+        </header>
         @include('projects._list-items')
     </div>
 
