@@ -36,7 +36,7 @@ class ProjectTableSeeder extends Seeder
     protected function addTasks($projects): void
     {
         $projects->each(function ($project) {
-            factory(Task::class)->create(['project_id' => $project->id]);
+            factory(Task::class, 5)->create(['project_id' => $project->id]);
         });
     }
 

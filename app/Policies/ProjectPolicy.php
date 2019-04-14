@@ -19,7 +19,7 @@ class ProjectPolicy
      */
     public function view(User $user, Project $project)
     {
-        if($user->id != $project->owner_id) {
+        if(auth()->id() != $project->owner_id) {
             return false;
         }
 
@@ -46,7 +46,11 @@ class ProjectPolicy
      */
     public function update(User $user, Project $project)
     {
-        //
+        if($user->id != $project->owner_id) {
+            return false;
+        }
+
+        return true;
     }
 
     /**

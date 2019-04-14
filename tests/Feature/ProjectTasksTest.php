@@ -2,14 +2,26 @@
 
 namespace Tests\Feature;
 
-use App\Models\Project;
+use App\User;
 use Tests\TestCase;
+use App\Models\Project;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ProjectTasksTest extends TestCase
 {
     use RefreshDatabase;
+
+    /** @test */
+    public function the_guests_cannot_add_tasks_to_the_projects()
+    {
+        $project = factory(Project::class)->create();
+
+        $this->post(route('tasks.store', [
+            'project' => $project->id,
+            'body' => 'Test task',
+        ]))->assertRedirect('login');
+    }
 
     /** @test */
     public function a_project_can_have_tasks()
@@ -26,6 +38,25 @@ class ProjectTasksTest extends TestCase
         ]));
 
         $this->get($project->path)->assertSee('Test task');
+    }
+
+    /** @test */
+    public function only_the_project_owner_may_add_tasks_to_it()
+    {
+        $this->authenticate();
+
+        $another_user = factory(User::class)->create();
+
+        $project = factory(Project::class)->create([
+            'owner_id' => $another_user->id,
+        ]);
+
+        $this->post(route('tasks.store', [
+            'project' => $project->id,
+            'body' => 'Test task',
+        ]))->assertStatus(403);
+
+        $this->assertDatabaseMissing('tasks', ['body' => 'Test task']);
     }
 
     /** @test */
