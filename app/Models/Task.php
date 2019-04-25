@@ -17,6 +17,11 @@ class Task extends Model
     protected $appends = ['path'];
 
     /**
+     * @var array
+     */
+    protected $touches = ['project'];
+
+    /**
      * The project of the class
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
