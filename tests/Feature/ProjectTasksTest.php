@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\User;
 use Tests\TestCase;
+use App\Models\Task;
 use App\Models\Project;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -38,6 +39,42 @@ class ProjectTasksTest extends TestCase
         ]));
 
         $this->get($project->path)->assertSee('Test task');
+    }
+
+    /** @test */
+    public function a_task_can_be_updated_only_from_his_owner()
+    {
+        $user = factory(User::class)->create();
+
+        $project = factory(Project::class)->create([
+            'owner_id' => $user->id,
+        ]);
+
+        $task = factory(Task::class)->create([
+            'project_id' => $project->id,
+        ]);
+
+        $this->authenticate();
+
+        $this->patch($task->path, [
+            'body' => 'Test task',
+        ])->assertStatus(403);
+
+        $this->assertDatabaseMissing('tasks', [
+            'body' => 'Test task'
+        ]);
+
+        $this->authenticate($user);
+
+        $this->patch($task->path, [
+            'body' => 'Test task',
+            'completed' => true,
+        ]);
+
+        $this->assertDatabaseHas('tasks', [
+            'body' => 'Test task',
+            'completed' => 1,
+        ]);
     }
 
     /** @test */

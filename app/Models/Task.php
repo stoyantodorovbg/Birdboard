@@ -12,6 +12,11 @@ class Task extends Model
     protected $guarded = [];
 
     /**
+     * @var array
+     */
+    protected $appends = ['path'];
+
+    /**
      * The project of the class
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -19,5 +24,15 @@ class Task extends Model
     public function project()
     {
         return $this->belongsTo(Project::class);
+    }
+
+    /**
+     * Get the url path for the task as string
+     *
+     * @return string
+     */
+    public function getPathAttribute()
+    {
+        return '/projects/' . $this->project->id . '/tasks/' . $this->id;
     }
 }

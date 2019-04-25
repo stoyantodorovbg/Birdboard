@@ -25,6 +25,7 @@ class TaskRequest extends FormRequest
     {
         return [
             'body' => 'required|string',
+            'completed' =>'bool',
         ];
     }
 }

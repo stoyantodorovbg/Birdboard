@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Task;
 use App\Models\Project;
 use App\Http\Requests\TaskRequest;
 
@@ -21,6 +22,27 @@ class TasksController extends Controller
 
         $project->addTask($request->body);
 
-        return view('projects.show', compact('project'));
+        return redirect()->back();
+    }
+
+    /**
+     * Update a task
+     *
+     * @param TaskRequest $request
+     * @param Project $project
+     * @param Task $task
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function update(TaskRequest $request, Project $project, Task $task)
+    {
+        $this->authorize('update', $project);
+
+        $task->update([
+            'body' => $request->body,
+            'completed' => $request->has('completed'),
+        ]);
+
+        return back();
     }
 }

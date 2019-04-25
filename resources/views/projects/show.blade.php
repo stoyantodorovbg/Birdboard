@@ -14,14 +14,30 @@
                         Tasks
                     </h2>
                     @forelse($project->tasks as $task)
-                        <div class="card ml-0 mb-2">{{ $task->body }}</div>
+                        <div class="card ml-0 mb-2">
+                            <form method="POST"
+                                action="{{ $task->path }}">
+                                @method('PATCH')
+                                @csrf
+                                <div class="flex">
+                                    <input class="w-full {{ $task->completed ? 'text-grey' : '' }}"
+                                           name="body"
+                                           value="{{ $task->body }}">
+                                    <input type="checkbox"
+                                           name="completed"
+                                           value="1"
+                                           {{ $task->completed ? 'checked' : '' }}
+                                           onChange="this.form.submit()">
+                                </div>
+                            </form>
+                        </div>
                     @empty
                         <div class="text-grey">No assigned tasks</div>
                     @endforelse
                     <div class="card ml-0 mb-2">
                         <form method="POST" action="{{ route('tasks.store', $project->id) }}">
                             @csrf
-                            <input name="body" placeholder="Add a task...">
+                            <input class="w-full" type="text" name="body" placeholder="Add a task...">
                         </form>
                     </div>
                 </div>

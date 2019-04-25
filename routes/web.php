@@ -20,6 +20,7 @@ Route::get('/projects/create', 'ProjectsController@create')->name('projects.crea
 Route::get('/projects/{project}', 'ProjectsController@show')->name('projects.show')->middleware('auth');
 Route::post('/projects', 'ProjectsController@store')->name('projects.store')->middleware('auth');
 Route::post('/projects/{project}/tasks', 'TasksController@store')->name('tasks.store')->middleware('auth');
+Route::patch('/projects/{project}/tasks/{task}', 'TasksController@update')->name('tasks.update')->middleware('auth');
 
 Auth::routes();
 
