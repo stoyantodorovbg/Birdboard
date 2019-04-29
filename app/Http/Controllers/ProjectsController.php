@@ -57,4 +57,20 @@ class ProjectsController extends Controller
 
         return redirect()->route('projects.show', $project)->with(['project' => $project]);
     }
+
+    /**
+     * Update a project
+     *
+     * @param Project $project
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function update(Project $project)
+    {
+        $this->authorize('update', $project);
+
+        $project->update(request()->all());
+
+        return redirect()->route('projects.show', $project)->with(['project' => $project]);
+    }
 }

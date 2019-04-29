@@ -45,7 +45,15 @@
                     <h2 class="text-grey text-lg font-normal mb-3">
                         General Notes
                     </h2>
-                    <textarea class="card ml-0 w-full min-h-200">Lorem ipsum</textarea>
+                    <form method="POST" action="{{ route('projects.update', $project->id) }}">
+                        @csrf
+                        @method('PATCH')
+                        <textarea class="card ml-0 w-full min-h-200"
+                                name="notes">
+                            {{ $project->notes }}
+                        </textarea>
+                        <button type="submit" class="button">Save</button>
+                    </form>
                 </div>
             </div>
             @include('projects._item')

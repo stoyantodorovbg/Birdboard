@@ -31,12 +31,16 @@ class TasksController extends Controller
      * @param TaskRequest $request
      * @param Project $project
      * @param Task $task
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse|int
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function update(TaskRequest $request, Project $project, Task $task)
     {
         $this->authorize('update', $project);
+
+        if($project->id != $task->project_id) {
+            return response('Unauthorizd!', 403);
+        }
 
         $task->update([
             'body' => $request->body,

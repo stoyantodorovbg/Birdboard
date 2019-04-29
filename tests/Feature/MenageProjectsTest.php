@@ -31,13 +31,53 @@ class MenageProjectsTest extends TestCase
 
         $this->get('/projects/create')->assertStatus(200);
 
-        $project = factory(Project::class)->raw(['owner_id' => $user->id]);
+        $project = factory(Project::class)->raw([
+            'owner_id' => $user->id
+        ]);
 
         $this->post('/projects', $project);
 
         $this->assertDatabaseHas('projects', $project);
 
-        $this->get('/projects', $project)->assertSee($project['title']);
+        $project = Project::where('title', $project['title'])->first();
+
+        $this->get($project->path)
+            ->assertSee($project['title'])
+            ->assertSee($project['notes']);
+    }
+
+    /** @test */
+    public function the_authorized_user_can_update_project()
+    {
+        $user = $this->authenticate();
+
+        $project = factory(Project::class)->create([
+            'owner_id' => $user->id
+        ]);
+
+        $data = [
+            'notes' => 'updated_notes',
+        ];
+
+        $this->patch(route('projects.update', $project->id), $data)
+            ->assertStatus(302);
+
+        $this->assertDatabaseHas('projects', [
+            'notes' => 'updated_notes',
+        ]);
+
+        $this->authenticate();
+
+        $data = [
+            'notes' => 'unauthorized update',
+        ];
+
+        $this->patch(route('projects.update', $project->id), $data)
+            ->assertStatus(403);
+
+        $this->assertDatabaseMissing('projects', [
+            'notes' => 'unauthorized update',
+        ]);
     }
 
     /** @test */
@@ -48,6 +88,20 @@ class MenageProjectsTest extends TestCase
         $project = factory(Project::class)->raw(['title' => '']);
 
         $this->post('/projects', $project)->assertSessionHasErrors(['title']);
+    }
+
+    /** @test */
+    public function the_project_title_is_unique()
+    {
+        $this->authenticate();
+
+        $project = factory(Project::class)->create();
+
+        $other_project = factory(Project::class)->raw([
+            'title' => $project->title,
+        ]);
+
+        $this->post('/projects', $other_project)->assertSessionHasErrors(['title']);
     }
 
     /** @test */

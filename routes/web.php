@@ -18,6 +18,7 @@ Route::get('/', function () {
 Route::get('/projects', 'ProjectsController@index')->name('projects.index')->middleware('auth');
 Route::get('/projects/create', 'ProjectsController@create')->name('projects.create')->middleware('auth');
 Route::get('/projects/{project}', 'ProjectsController@show')->name('projects.show')->middleware('auth');
+Route::patch('/projects/{project}', 'ProjectsController@update')->name('projects.update')->middleware('auth');
 Route::post('/projects', 'ProjectsController@store')->name('projects.store')->middleware('auth');
 Route::post('/projects/{project}/tasks', 'TasksController@store')->name('tasks.store')->middleware('auth');
 Route::patch('/projects/{project}/tasks/{task}', 'TasksController@update')->name('tasks.update')->middleware('auth');

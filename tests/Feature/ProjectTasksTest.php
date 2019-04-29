@@ -42,7 +42,7 @@ class ProjectTasksTest extends TestCase
     }
 
     /** @test */
-    public function a_task_can_be_updated_only_from_his_owner()
+    public function a_task_can_be_updated_only_from_the_project_owner()
     {
         $user = factory(User::class)->create();
 
@@ -75,6 +75,42 @@ class ProjectTasksTest extends TestCase
             'body' => 'Test task',
             'completed' => 1,
         ]);
+    }
+
+    /** @test */
+    public function only_tasks_which_belong_to_the_project_can_be_updated()
+    {
+        $this->withoutExceptionHandling();
+
+        $user = $this->authenticate();
+
+        $another_user = factory(User::class)->create();
+
+        $project = factory(Project::class)->create([
+            'owner_id' => $user->id,
+        ]);
+
+        $task = factory(Task::class)->create([
+            'project_id' => $project->id,
+        ]);
+
+        $another_project = factory(Project::class)->create([
+            'owner_id' => $another_user->id,
+        ]);
+
+        $another_task = factory(Task::class)->create([
+            'project_id' => $another_project->id,
+        ]);
+
+        $this->patch('/projects/' . $project->id . '/tasks/' . $another_task->id, [
+            'body' => 'Test task',
+            'completed' => true,
+        ])->assertStatus(403);
+
+        $this->patch('/projects/' . $project->id . '/tasks/' . $task->id, [
+            'body' => 'Test task',
+            'completed' => true,
+        ])->assertStatus(302);
     }
 
     /** @test */
