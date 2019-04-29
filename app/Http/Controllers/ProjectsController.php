@@ -59,17 +59,53 @@ class ProjectsController extends Controller
     }
 
     /**
+     * Edit a project
+     *
+     * @param Project $project
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function edit(Project $project)
+    {
+        $this->authorize('view', $project);
+
+        $project->load('tasks');
+
+        return view('projects.edit', compact('project'));
+    }
+
+    /**
      * Update a project
      *
+     * @param ProjectRequest $request
      * @param Project $project
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function update(Project $project)
+    public function update(ProjectRequest $request, Project $project)
     {
         $this->authorize('update', $project);
 
-        $project->update(request()->all());
+        $project->update($request->all());
+
+        return redirect()->route('projects.show', $project)->with(['project' => $project]);
+    }
+
+    /**
+     * Update the project notes
+     *
+     * @param ProjectRequest $request
+     * @param Project $project
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function updateNotes(Project $project)
+    {
+        $this->authorize('update', $project);
+
+        $project->update([
+            'notes' => request()->notes,
+        ]);
 
         return redirect()->route('projects.show', $project)->with(['project' => $project]);
     }

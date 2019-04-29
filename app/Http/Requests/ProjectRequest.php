@@ -23,10 +23,11 @@ class ProjectRequest extends FormRequest
      */
     public function rules()
     {
+        $project_id = $this->isMethod('PATCH') ? $this->route('project')->id : '';
+
         return [
-            'title' => 'required|string|max:255|unique:projects,title',
+            'title' => 'required|string|max:255|unique:projects,title,' . $project_id,
             'description' => 'required|string',
-            'notes' => 'string',
         ];
     }
 }

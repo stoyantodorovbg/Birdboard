@@ -6,7 +6,7 @@
         </a> / {{ $project->title }}
     </p>
     <a class="button mr-3"
-       href="{{ route('projects.create') }}">
-        Create New Project
+       href="{{ route('projects.edit', $project) }}">
+        Edit Project
     </a>
 </header>

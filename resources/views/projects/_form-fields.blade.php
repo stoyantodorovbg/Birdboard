@@ -1,10 +1,26 @@
 @csrf
 
-<div class="form-group">
-    <label for="title">Title</label>
-    <input name="title" type="text" class="form-control col-6">
+<div class="field mb-6">
+    <label class="text-sm mb-2 block" for="title">
+        Title
+    </label>
+    <input class="input bg-transparent border border-grey-light rounded p-2 text-xs w-full"
+           name="title"
+           type="text"
+           value="{{ isset($project) ? $project->title : '' }}">
 </div>
-<div class="form-group">
-    <label for="description">Description</label>
-    <textarea name="description" class="form-control col-6"></textarea>
+<div class="field mb-6">
+    <label class="text-sm mb-2 block"
+            for="description">
+        Description
+    </label>
+    <textarea class="input bg-transparent border border-grey-light rounded p-2 text-xs w-full"
+              name="description">{{ isset($project) ? $project->description : '' }}</textarea>
 </div>
+@if($errors->any())
+    <div class="field mb-6">
+        @foreach($errors->all() as $error)
+            <li class="text-red">{{ $error }}</li>
+        @endforeach
+    </div>
+@endif

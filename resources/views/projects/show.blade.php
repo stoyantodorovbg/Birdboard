@@ -16,7 +16,7 @@
                     @forelse($project->tasks as $task)
                         <div class="card ml-0 mb-2">
                             <form method="POST"
-                                action="{{ $task->path }}">
+                                action="{{ route('projects.update-notes', $project) }}">
                                 @method('PATCH')
                                 @csrf
                                 <div class="flex">
