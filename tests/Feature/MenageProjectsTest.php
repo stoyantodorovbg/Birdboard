@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\User;
 use Tests\TestCase;
 use App\Models\Project;
+use Tests\Setup\ProjectFactory;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -95,7 +96,7 @@ class MenageProjectsTest extends TestCase
     {
         $this->authenticate();
 
-        $project = factory(Project::class)->create();
+        $project = app(ProjectFactory::class)->create();
 
         $other_project = factory(Project::class)->raw([
             'title' => $project->title,

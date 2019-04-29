@@ -13,9 +13,9 @@ abstract class TestCase extends BaseTestCase
      * Create an user and authenticate him
      *
      * @param User|null $user
-     * @return User|mixed
+     * @return User
      */
-    protected function authenticate(User $user = null)
+    protected function authenticate(User $user = null) : User
     {
         if(! $user) $user = factory(User::class)->create();
 
