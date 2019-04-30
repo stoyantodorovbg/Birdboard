@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ProjectRequest extends FormRequest
@@ -13,6 +14,10 @@ class ProjectRequest extends FormRequest
      */
     public function authorize()
     {
+        if($this->isMethod('PATCH')) {
+            return Gate::allows('update', $this->route('project'));
+        }
+
         return true;
     }
 
@@ -26,8 +31,9 @@ class ProjectRequest extends FormRequest
         $project_id = $this->isMethod('PATCH') ? $this->route('project')->id : '';
 
         return [
-            'title' => 'required|string|max:255|unique:projects,title,' . $project_id,
-            'description' => 'required|string',
+            'title' => 'sometimes|required|string|max:255|unique:projects,title,' . $project_id,
+            'description' => 'sometimes|required|string',
+            'notes' => 'sometimes|string'
         ];
     }
 }

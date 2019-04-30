@@ -15,45 +15,21 @@
                     </h2>
                     @forelse($project->tasks as $task)
                         <div class="card ml-0 mb-2">
-                            <form method="POST"
-                                action="{{ route('projects.update-notes', $project) }}">
-                                @method('PATCH')
-                                @csrf
-                                <div class="flex">
-                                    <input class="w-full {{ $task->completed ? 'text-grey' : '' }}"
-                                           name="body"
-                                           value="{{ $task->body }}">
-                                    <input type="checkbox"
-                                           name="completed"
-                                           value="1"
-                                           {{ $task->completed ? 'checked' : '' }}
-                                           onChange="this.form.submit()">
-                                </div>
-                            </form>
+                            @include('projects._edit-task')
                         </div>
                     @empty
                         <div class="text-grey">No assigned tasks</div>
                     @endforelse
                     <div class="card ml-0 mb-2">
-                        <form method="POST" action="{{ route('tasks.store', $project->id) }}">
-                            @csrf
-                            <input class="w-full" type="text" name="body" placeholder="Add a task...">
-                        </form>
+                        @include('projects._add-task')
                     </div>
                 </div>
+                @include('partials.validation-errors')
                 <div class="mb-8 mr-3">
                     <h2 class="text-grey text-lg font-normal mb-3">
                         General Notes
                     </h2>
-                    <form method="POST" action="{{ route('projects.update', $project->id) }}">
-                        @csrf
-                        @method('PATCH')
-                        <textarea class="card ml-0 w-full min-h-200"
-                                name="notes">
-                            {{ $project->notes }}
-                        </textarea>
-                        <button type="submit" class="button">Save</button>
-                    </form>
+                    @include('projects._project-notes-field')
                 </div>
             </div>
             @include('projects._item')

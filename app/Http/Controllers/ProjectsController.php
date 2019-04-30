@@ -53,7 +53,7 @@ class ProjectsController extends Controller
      */
     public function store(ProjectRequest $request)
     {
-        $project = auth()->user()->projects()->create($request->all());
+        $project = auth()->user()->projects()->create($request->validated());
 
         return redirect()->route('projects.show', $project)->with(['project' => $project]);
     }
@@ -80,13 +80,10 @@ class ProjectsController extends Controller
      * @param ProjectRequest $request
      * @param Project $project
      * @return \Illuminate\Http\RedirectResponse
-     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function update(ProjectRequest $request, Project $project)
     {
-        $this->authorize('update', $project);
-
-        $project->update($request->all());
+        $project->update($request->validated());
 
         return redirect()->route('projects.show', $project)->with(['project' => $project]);
     }
@@ -97,15 +94,10 @@ class ProjectsController extends Controller
      * @param ProjectRequest $request
      * @param Project $project
      * @return \Illuminate\Http\RedirectResponse
-     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function updateNotes(Project $project)
+    public function updateNotes(ProjectRequest $request, Project $project)
     {
-        $this->authorize('update', $project);
-
-        $project->update([
-            'notes' => request()->notes,
-        ]);
+        $project->update($request->validated());
 
         return redirect()->route('projects.show', $project)->with(['project' => $project]);
     }

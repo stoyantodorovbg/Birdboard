@@ -1,5 +1,4 @@
 @csrf
-
 <div class="field mb-6">
     <label class="text-sm mb-2 block" for="title">
         Title
@@ -17,10 +16,4 @@
     <textarea class="input bg-transparent border border-grey-light rounded p-2 text-xs w-full"
               name="description">{{ isset($project) ? $project->description : '' }}</textarea>
 </div>
-@if($errors->any())
-    <div class="field mb-6">
-        @foreach($errors->all() as $error)
-            <li class="text-red">{{ $error }}</li>
-        @endforeach
-    </div>
-@endif
+@include('partials.validation-errors')

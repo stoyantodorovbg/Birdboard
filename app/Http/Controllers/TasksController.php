@@ -42,10 +42,7 @@ class TasksController extends Controller
             return response('Unauthorizd!', 403);
         }
 
-        $task->update([
-            'body' => $request->body,
-            'completed' => $request->has('completed'),
-        ]);
+        $task->update($request->validated());
 
         return back();
     }
