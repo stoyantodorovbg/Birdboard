@@ -17,7 +17,7 @@ class Task extends Model
     protected $appends = ['path'];
 
     /**
-     * @var array 
+     * @var array
      */
     protected $casts = [
         'completed' => 'boolean',

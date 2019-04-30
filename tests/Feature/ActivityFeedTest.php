@@ -70,4 +70,14 @@ class ActivityFeedTest extends TestCase
 
         $this->assertCount(3, $project->fresh()->activities);
     }
+
+    /** @test */
+    public function task_deleting_generates_an_activity()
+    {
+        $project = app(ProjectFactory::class)->withTasks(1)->create();
+
+        $project->tasks->last()->delete();
+
+        $this->assertCount(3, $project->fresh()->activities);
+    }
 }

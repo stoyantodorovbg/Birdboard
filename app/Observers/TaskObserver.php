@@ -37,7 +37,7 @@ class TaskObserver
      */
     public function deleted(Task $task)
     {
-        //
+        $task->project->addActivity($this->messageDeleted($task->project));
     }
 
     /**
@@ -59,6 +59,17 @@ class TaskObserver
      */
     protected function messageUpdated(Project $project): string
     {
-        return $project->owner->name . ' updated a Task for the project ' . $project->title . '.';
+        return $project->owner->name . ' updated a Task of the project ' . $project->title . '.';
+    }
+
+    /**
+     * Create a message for the deleted event
+     *
+     * @param Project $project
+     * @return string
+     */
+    protected function messageDeleted(Project $project): string
+    {
+        return $project->owner->name . ' deleted a Task of the project ' . $project->title . '.';
     }
 }
