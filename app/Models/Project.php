@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\User;
+use Illuminate\Support\Arr;
 use Illuminate\Database\Eloquent\Model;
 
 class Project extends Model
@@ -16,6 +17,11 @@ class Project extends Model
      * @var array
      */
     protected $appends = ['path'];
+
+    /**
+     * @var array
+     */
+    public $old = [];
 
     /**
      * The url for this project
@@ -64,7 +70,7 @@ class Project extends Model
      */
     public function activities()
     {
-        return $this->morphMany(Activity::class, 'activityable');
+        return $this->morphMany(Activity::class, 'activityable')->latest();
     }
 
     /**
@@ -74,8 +80,24 @@ class Project extends Model
      */
     public function addActivity(string $message): void
     {
+        $changes = $this->getActivityChanges();
+
         $this->activities()->create([
             'action' => $message,
+            'changes' => $changes,
         ]);
+    }
+
+    /**
+     * Get the changes for the this model
+     *
+     * @return array|null
+     */
+    protected function getActivityChanges()
+    {
+        return $this->old ? [
+            'before' => Arr::except(array_diff($this->old, $this->getAttributes()), 'updated_at'),
+            'after' => Arr::except($this->getChanges(), 'updated_at'),
+        ] : NULL;
     }
 }

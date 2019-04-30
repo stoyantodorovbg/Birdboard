@@ -18,6 +18,7 @@ class ActivityFeedTest extends TestCase
         $project = factory(Project::class)->create();
 
         $this->assertCount(1, $project->activities);
+        $this->assertNull($project->activities->last()->changes);
     }
 
     /** @test */
@@ -26,7 +27,7 @@ class ActivityFeedTest extends TestCase
         $project = factory(Project::class)->create();
 
         $this->assertDatabaseHas('activities', [
-            'action' => 'New Project - ' . $project->title . ' has been created from ' . $project->owner->name . '.',
+            'action' => 'New Project - ' . $project->title . ' - has been created from ' . $project->owner->name . '.',
         ]);
     }
 
@@ -34,6 +35,7 @@ class ActivityFeedTest extends TestCase
     public function updating_a_project_generates_an_activity()
     {
         $project = factory(Project::class)->create();
+        $project_title = $project->title;
 
         $project->update([
             'title' => 'Updated title'
@@ -43,6 +45,13 @@ class ActivityFeedTest extends TestCase
 
         $this->assertContains('title', $project->activities->last()->action);
         $this->assertContains('property', $project->activities->last()->action);
+
+        $expected_changes = [
+            'before' => ['title' => $project_title],
+            'after' => ['title' => 'Updated title'],
+        ];
+
+        $this->assertEquals($project->activities->last()->changes, $expected_changes);
 
         $project->update([
             'title' => 'Updated title 1',

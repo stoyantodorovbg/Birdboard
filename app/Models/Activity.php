@@ -12,6 +12,13 @@ class Activity extends Model
     protected $guarded = [];
 
     /**
+     * @var array
+     */
+    protected $casts = [
+        'changes' => 'array'
+    ];
+
+    /**
      * Get all of the owning activityable models.
      */
     public function activityable()

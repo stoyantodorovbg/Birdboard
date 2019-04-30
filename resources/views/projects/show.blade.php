@@ -32,7 +32,10 @@
                     @include('projects._project-notes-field')
                 </div>
             </div>
-            @include('projects._item')
+            <div class="md:w-1/2 lg:w-1/3">
+                @include('projects._item-card', ['description' => $project->description])
+                @include('activities._activity-card', ['activities' => $project->activities])
+            </div>
         </div>
         <a href="{{ route('projects.index') }}">
             <button type="button" class="btn btn-light">Go Back</button>

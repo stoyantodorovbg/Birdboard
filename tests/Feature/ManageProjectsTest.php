@@ -150,7 +150,7 @@ class ManageProjectsTest extends TestCase
 
         $this->get($project->path)
             ->assertSee($project->title)
-            ->assertSee(\Illuminate\Support\Str::limit($project->description, 70));
+            ->assertSee($project->description);
 
         $this->get($project->path . '/edit')
             ->assertSee($project->title)

@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Project;
+use Illuminate\Support\Arr;
 
 class ProjectObserver
 {
@@ -29,6 +30,17 @@ class ProjectObserver
     }
 
     /**
+     * Handle the project "updating" event.
+     *
+     * @param  \App\Models\Project  $project
+     * @return void
+     */
+    public function updating(Project $project)
+    {
+        $project->old = $project->getOriginal();
+    }
+
+    /**
      * Handle the project "deleted" event.
      *
      * @param  \App\Models\Project  $project
@@ -47,7 +59,7 @@ class ProjectObserver
      */
     protected function messageCreated(Project $project): string
     {
-        return 'New Project - ' . $project->title . ' has been created from ' . $project->owner->name . '.';
+        return 'New Project - ' . $project->title . ' - has been created from ' . $project->owner->name . '.';
     }
 
     /**
@@ -60,11 +72,13 @@ class ProjectObserver
     {
         $updated_properties = array_keys($project->getDirty());
 
+        $updated_properties = Arr::except($updated_properties, 'updated_at');
+
         $message = implode(', ', $updated_properties);
 
         $property = count($updated_properties) > 1 ? 'properties' : 'property';
 
-        $message = 'The project ' . $project->title . $property . ' ' . $message . ' has been updated from ' . $project->owner->name . '.';
+        $message = $project->owner->name . ' updated the ' . $property . ' ' . $message . ' of the project ' . $project->title . '.';
 
         return $message;
     }
