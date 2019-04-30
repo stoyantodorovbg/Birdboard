@@ -56,4 +56,26 @@ class Project extends Model
     {
         $this->tasks()->create(['body' => $body]);
     }
+
+    /**
+     * The activities for the project
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function activities()
+    {
+        return $this->morphMany(Activity::class, 'activityable');
+    }
+
+    /**
+     * Add an activity to the project
+     *
+     * @param string $message
+     */
+    public function addActivity(string $message): void
+    {
+        $this->activities()->create([
+            'action' => $message,
+        ]);
+    }
 }
