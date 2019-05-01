@@ -144,6 +144,6 @@ class ProjectTasksTest extends TestCase
         $this->post(route('tasks.store', [
             'project' => $project->id,
             'body' => '',
-        ]))->assertSessionHasErrors('body');
+        ]))->assertSessionHasErrors('body', null, 'task');
     }
 }

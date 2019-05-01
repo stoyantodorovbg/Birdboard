@@ -135,7 +135,7 @@ class ManageProjectsTest extends TestCase
 
         $project = factory(Project::class)->raw(['title' => '']);
 
-        $this->post('/projects', $project)->assertSessionHasErrors(['title']);
+        $this->post('/projects', $project)->assertSessionHasErrors(['title'], null, 'project');
     }
 
     /** @test */
@@ -149,7 +149,7 @@ class ManageProjectsTest extends TestCase
             'title' => $project->title,
         ]);
 
-        $this->post('/projects', $other_project)->assertSessionHasErrors(['title']);
+        $this->post('/projects', $other_project)->assertSessionHasErrors(['title'], null, 'project');
     }
 
     /** @test */
@@ -159,7 +159,7 @@ class ManageProjectsTest extends TestCase
 
         $project = factory(Project::class)->raw(['description' => '']);
 
-        $this->post('/projects', $project)->assertSessionHasErrors(['description']);
+        $this->post('/projects', $project)->assertSessionHasErrors(['description'], null, 'project');
     }
 
     /** @test */

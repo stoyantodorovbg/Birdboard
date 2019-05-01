@@ -5,5 +5,6 @@
               name="notes">
                             {{ $project->notes }}
                         </textarea>
+    @include('partials.validation-errors', ['bag' => 'project'])
     <button type="submit" class="button">Save</button>
 </form>

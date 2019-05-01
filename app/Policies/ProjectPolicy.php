@@ -46,6 +46,18 @@ class ProjectPolicy
     }
 
     /**
+     * Determine whether the user can manage the project.
+     *
+     * @param  \App\User  $user
+     * @param  \App\Models\Project  $project
+     * @return mixed
+     */
+    public function manage(User $user, Project $project)
+    {
+        return $user->id == $project->owner_id;
+    }
+
+    /**
      * Determine whether the user can delete the project.
      *
      * @param  \App\User  $user

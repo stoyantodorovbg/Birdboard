@@ -13,7 +13,7 @@ class InvitationsTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function the_users_which_are_not_owners_or_members_of_the_project_can_not_invite_to_it()
+    public function the_users_which_are_not_owners_of_the_project_can_not_invite_to_it()
     {
         $project = factory(Project::class)->create();
 
@@ -22,6 +22,12 @@ class InvitationsTest extends TestCase
         $this->authenticate();
 
         $this->post(route('projects.invite', $project->id), [
+            'email' => $user->email,
+        ])->assertStatus(403);
+
+        $project->invite($user);
+
+        $this->actingAs($user)->post(route('projects.invite', $project->id), [
             'email' => $user->email,
         ])->assertStatus(403);
     }
@@ -47,10 +53,9 @@ class InvitationsTest extends TestCase
 
         $this->actingAs($project->owner)->post(route('projects.invite', $project->id), [
             'email' => 'not_a_user@example.com',
-        ])
-            ->assertSessionHasErrors([
+        ])->assertSessionHasErrors([
             'email' => 'The invited user must have a Birdboard account.',
-        ]);
+        ], null, 'invitation');
 
     }
 

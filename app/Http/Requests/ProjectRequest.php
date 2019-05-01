@@ -8,6 +8,11 @@ use Illuminate\Foundation\Http\FormRequest;
 class ProjectRequest extends FormRequest
 {
     /**
+     * @var string
+     */
+    protected $errorBag = 'project';
+
+    /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool

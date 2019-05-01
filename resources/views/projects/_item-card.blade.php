@@ -12,7 +12,7 @@
         <form action="{{ $project->path }}" method="POST" class="text-right">
             @csrf
             @method('DELETE')
-            <button type="submit" class="text-xs button bg-red">DELETE</button>
+            <button type="submit" class="text-xs button bg-red">Delete</button>
         </form>
     </footer>
 </div>
