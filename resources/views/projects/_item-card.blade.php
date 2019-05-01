@@ -8,4 +8,11 @@
     <div class="text-grey-dark">
         {{ $description }}
     </div>
+    <footer class="mt-4">
+        <form action="{{ $project->path }}" method="POST" class="text-right">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="text-xs button bg-red">DELETE</button>
+        </form>
+    </footer>
 </div>

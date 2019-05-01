@@ -89,6 +89,22 @@ class ProjectsController extends Controller
     }
 
     /**
+     * Destroy a project
+     *
+     * @param Project $project
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
+     */
+    public function destroy(Project $project)
+    {
+        $this->authorize('delete', $project);
+
+        $project->delete();
+
+        return redirect()->route('projects.index');
+    }
+
+    /**
      * Update the project notes
      *
      * @param ProjectRequest $request

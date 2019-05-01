@@ -15,11 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/projects', 'ProjectsController@index')->name('projects.index')->middleware('auth');
-Route::get('/projects/create', 'ProjectsController@create')->name('projects.create')->middleware('auth');
-Route::get('/projects/{project}', 'ProjectsController@show')->name('projects.show')->middleware('auth');
-Route::get('/projects/{project}/edit', 'ProjectsController@edit')->name('projects.edit')->middleware('auth');
-Route::patch('/projects/{project}', 'ProjectsController@update')->name('projects.update')->middleware('auth');
+Route::resource('projects', 'ProjectsController')->middleware('auth');
 Route::patch('/projects/{project}/notes', 'ProjectsController@updateNotes')->name('projects.update-notes')->middleware('auth');
 Route::post('/projects', 'ProjectsController@store')->name('projects.store')->middleware('auth');
 Route::post('/projects/{project}/tasks', 'TasksController@store')->name('tasks.store')->middleware('auth');

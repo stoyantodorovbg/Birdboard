@@ -62,7 +62,11 @@ class ProjectPolicy
      */
     public function delete(User $user, Project $project)
     {
-        //
+        if($user->id != $project->owner_id) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
