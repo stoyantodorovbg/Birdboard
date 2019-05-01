@@ -126,6 +126,9 @@ class ManageProjectsTest extends TestCase
 
         $this->delete($another_project->path)->assertStatus(403);
         $this->assertDatabaseHas('projects', $another_project->only('id'));
+
+        $another_project->invite($user);
+        $this->delete($another_project->path)->assertStatus(403);
     }
 
     /** @test */
