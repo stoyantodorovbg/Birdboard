@@ -74,6 +74,16 @@ class Project extends Model
     }
 
     /**
+     * The members of the project
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function members()
+    {
+        return $this->belongsToMany(User::class, 'project_members');
+    }
+
+    /**
      * Add an activity to the project
      *
      * @param string $message
@@ -87,6 +97,16 @@ class Project extends Model
             'action' => $message,
             'changes' => $changes,
         ]);
+    }
+
+    /**
+     * Add an user to the project members
+     *
+     * @param User $user
+     */
+    public function invite(User $user)
+    {
+        $this->members()->attach($user);
     }
 
     /**

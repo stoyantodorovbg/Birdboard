@@ -176,6 +176,24 @@ class ManageProjectsTest extends TestCase
     }
 
     /** @test */
+    public function the_project_can_be_viewed_from_his_members()
+    {
+        $project = factory(Project::class)->create();
+
+        $user = $this->authenticate();
+
+        $project->invite($user);
+
+        $this->get($project->path)
+            ->assertSee($project->title)
+            ->assertSee($project->description);
+
+        $this->get($project->path . '/edit')
+            ->assertSee($project->title)
+            ->assertSee($project->description);
+    }
+
+    /** @test */
     public function the_project_can_not_be_viewed_from_another_user()
     {
         $this->authenticate();

@@ -19,11 +19,7 @@ class ProjectPolicy
      */
     public function view(User $user, Project $project)
     {
-        if(auth()->id() != $project->owner_id) {
-            return false;
-        }
-
-        return true;
+        return auth()->id() == $project->owner_id || $project->members->contains($user);
     }
 
     /**
@@ -46,11 +42,7 @@ class ProjectPolicy
      */
     public function update(User $user, Project $project)
     {
-        if($user->id != $project->owner_id) {
-            return false;
-        }
-
-        return true;
+        return $user->id == $project->owner_id || $project->members->contains($user);
     }
 
     /**
@@ -62,11 +54,7 @@ class ProjectPolicy
      */
     public function delete(User $user, Project $project)
     {
-        if($user->id != $project->owner_id) {
-            return false;
-        }
-
-        return true;
+        return $user->id == $project->owner_id;
     }
 
     /**
