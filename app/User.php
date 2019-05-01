@@ -30,6 +30,11 @@ class User extends Authenticatable
     ];
 
     /**
+     * @var array
+     */
+    protected $appends = ['gravatar_img_src'];
+
+    /**
      * The attributes that should be cast to native types.
      *
      * @var array
@@ -60,5 +65,16 @@ class User extends Authenticatable
                 $query->where('user_id', $this->id);
             })->orderBy('created_at', 'DESC')
             ->get();
+    }
+
+    /**
+     * Gravatar img src accessor
+     *
+     * @return string
+     */
+    public function getGravatarImgSrcAttribute()
+    {
+        $email = md5($this->email);
+        return "https://gravatar.com/avatar/$email?s=60";
     }
 }
