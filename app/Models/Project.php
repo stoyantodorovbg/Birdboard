@@ -83,6 +83,7 @@ class Project extends Model
         $changes = $this->getActivityChanges();
 
         $this->activities()->create([
+            'user_id' => $this->owner_id,
             'action' => $message,
             'changes' => $changes,
         ]);
