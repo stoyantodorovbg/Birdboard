@@ -5,8 +5,10 @@
             My Projects
         </a> / {{ $project->title }}
     </p>
-    <a class="button mr-3"
-       href="{{ route('projects.edit', $project) }}">
-        Edit Project
-    </a>
+    <div>
+        <a class="button mr-3"
+            href="{{ route('projects.edit', $project) }}">
+            Edit Project
+        </a>
+    </div>
 </header>

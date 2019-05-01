@@ -14,6 +14,19 @@ class ManageProjectsTest extends TestCase
     use WithFaker, RefreshDatabase;
 
     /** @test */
+    public function an_user_can_see_all_projects_on_which_he_is_a_member_on_their_dashbord()
+    {
+        $user = $this->authenticate();
+
+        $project = factory(Project::class)->create();
+
+        $project->invite($user);
+
+        $this->get(route('projects.index'))
+            ->assertSee($project->title);
+    }
+
+    /** @test */
     public function the_guests_cannot_create_a_project()
     {
         $project = factory(Project::class)->raw();
@@ -214,7 +227,7 @@ class ManageProjectsTest extends TestCase
     }
 
     /** @test */
-    public function the_authenticated_user_can_view_only_his_projects_on_the_index()
+    public function the_authenticated_user_can_view_his_projects_on_the_index()
     {
         $user = $this->authenticate();
 
