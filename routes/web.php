@@ -20,6 +20,7 @@ Route::patch('/projects/{project}/notes', 'ProjectsController@updateNotes')->nam
 Route::post('/projects', 'ProjectsController@store')->name('projects.store')->middleware('auth');
 Route::post('/projects/{project}/tasks', 'TasksController@store')->name('tasks.store')->middleware('auth');
 Route::patch('/projects/{project}/tasks/{task}', 'TasksController@update')->name('tasks.update')->middleware('auth');
+Route::post('/projects/{project}/invite', 'ProjectInvitationsController@store')->name('projects.invite')->middleware('auth');
 
 Auth::routes();
 
