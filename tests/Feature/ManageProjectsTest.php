@@ -37,11 +37,7 @@ class ManageProjectsTest extends TestCase
     /** @test */
     public function the_authenticated_user_can_create_a_project()
     {
-        $this->withoutExceptionHandling();
-
-        $user = factory(User::class)->create();
-
-        $this->actingAs($user);
+        $user = $this->authenticate();
 
         $this->get('/projects/create')->assertStatus(200);
 
@@ -58,6 +54,24 @@ class ManageProjectsTest extends TestCase
         $this->get($project->path)
             ->assertSee($project['title'])
             ->assertSee($project['notes']);
+    }
+
+    /** @test */
+    public function tasks_can_be_included_as_part_a_new_project_creation()
+    {
+        $user = $this->authenticate();
+
+        $project = factory(Project::class)->raw();
+
+        $project['tasks'] = [
+            ['body' => 'test_task_1'],
+            ['body' => 'test_task_2'],
+        ];
+
+        $this->post('/projects', $project);
+
+        $this->assertCount(2, Project::first()->tasks);
+
     }
 
     /** @test */

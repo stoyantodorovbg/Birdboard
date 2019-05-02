@@ -64,6 +64,16 @@ class Project extends Model
     }
 
     /**
+     * Add tasks to the project
+     *
+     * @param array $tasks
+     */
+    public function addTasks($tasks)
+    {
+        $this->tasks()->createMany($tasks);
+    }
+
+    /**
      * The activities for the project
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany

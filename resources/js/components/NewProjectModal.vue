@@ -37,14 +37,14 @@
                     <div class="mb-4">
                         <label class="text-sm block mb-2">Need Some Tasks?</label>
                         <input v-for="task in form.tasks"
-                               v-model="task.value"
+                               v-model="task.body"
                                type="text"
                                class="border border-muted-light mb-2 p-2 text-xs block w-full rounded"
                                placeholder="Task 1">
                     </div>
-                    <button type="button"
-                            class="text-xs button mt-8 mb-5"
-                            @click="addTask">
+                    <button class="text-xs button mt-8 mb-5"
+                            @click="addTask"
+                            type="button">
                         Add New Task Field
                     </button>
                 </div>
@@ -52,10 +52,14 @@
             <footer class="flex justify-end">
                 <button
                     class="button mr-3 is-outlined"
-                    @click="$modal.hide('new-project')">
+                    @click="$modal.hide('new-project')"
+                    type="button">
                     Cancel
                 </button>
-                <button type="submit" class="button">Create Project</button>
+                <button type="submit"
+                        class="button">
+                    Create Project
+                </button>
             </footer>
         </form>
     </modal>
@@ -69,7 +73,7 @@
                     title: '',
                     description: '',
                     tasks: [
-                        { value: ''}
+                        { body: ''}
                     ]
                 },
 
