@@ -55,6 +55,10 @@ class ProjectsController extends Controller
     {
         $project = auth()->user()->projects()->create($request->validated());
 
+        if($request->wantsJson()) {
+            return ['path' => $project->path];
+        }
+
         return redirect()->route('projects.show', $project)->with(['project' => $project]);
     }
 

@@ -9,20 +9,11 @@
 
 window.Vue = require('vue');
 
-import VModal from 'vue-js-modal'
+window.axios = require('axios')
 
-Vue.use(VModal)
+import VModal from 'vue-js-modal';
 
-/*
-By default, the plugin will use "modal" name for the component.
-If you need to change it, you can do so by providing "componentName" param.
-
-Example:
-
-Vue.use(VModal, { componentName: "foo-modal" })
-...
-<foo-modal name="bar"></foo-modal>
-*/
+Vue.use(VModal);
 
 /**
  * The following block of code may be used to automatically register your
@@ -36,6 +27,7 @@ Vue.use(VModal, { componentName: "foo-modal" })
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
 Vue.component('theme-switcher', require('./components/ThemeSwitcher.vue').default);
+Vue.component('new-project-modal', require('./components/NewProjectModal.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
