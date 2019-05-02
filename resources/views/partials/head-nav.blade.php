@@ -1,4 +1,4 @@
-<nav class="bg-white pl-3 pr-3">
+<nav class="bg-header pl-3 pr-3">
     <div class="container mx-auto">
         <div class="flex justify-between items-center py-2">
             <a class="navbar-brand no-underline" href="{{ url('/') }}">

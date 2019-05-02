@@ -19,7 +19,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
-<body class="bg-grey-lighter">
+<body class="theme-green text-default bg-page">
     <div id="app">
         @include('partials.head-nav')
 
