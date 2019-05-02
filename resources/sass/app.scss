@@ -36,15 +36,6 @@
  * @import "components/forms";
  */
 
-.button {
-    @apply .bg-button .text-white .no-underline .rounded-lg .text-sm .py-2 .px-5;
-    box-shadow: 0 2px 7px 0 #b0eaff;
-}
-
-.card {
-    @apply .bg-card .p-4 .mr-3 mb-3 .rounded-lg .shadow;
-}
-
 /**
  * This injects all of Tailwind's utility classes, generated based on your
  * config file.
@@ -73,21 +64,13 @@
 // Variables
 @import 'variables';
 
+// Components
+@import 'components/button';
+@import 'components/card';
+
+// Themes
+@import 'themes/light';
+@import 'themes/green';
+
 //// Bootstrap
 //@import '~bootstrap/scss/bootstrap';
-
-.theme-light {
-    --page-background-color: #F5F6F9;
-    --card-background-color: white;
-    --button-background-color: #47CDFF;
-    --header-background-color: white;
-}
-
-.theme-green {
-    --page-background-color: green;
-    --card-background-color: grey;
-    --button-background-color: #47CDFF;
-    --header-background-color: grey;
-
-    --text-default-color: white;
-}
