@@ -566,28 +566,6 @@ table {
  * @import "components/forms";
  */
 
-.button {
-  background-color: var(--button-background-color);
-  color: #fff;
-  text-decoration: none;
-  border-radius: .5rem;
-  font-size: .875rem;
-  padding-top: .5rem;
-  padding-bottom: .5rem;
-  padding-left: 1.25rem;
-  padding-right: 1.25rem;
-  box-shadow: 0 2px 7px 0 #b0eaff;
-}
-
-.card {
-  background-color: var(--card-background-color);
-  padding: 1rem;
-  margin-right: .75rem;
-  margin-bottom: .75rem;
-  border-radius: .5rem;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .1);
-}
-
 /**
  * This injects all of Tailwind's utility classes, generated based on your
  * config file.
@@ -5399,6 +5377,28 @@ table {
  * @import "utilities/background-patterns";
  * @import "utilities/skew-transforms";
  */
+
+.button {
+  background-color: var(--button-background-color);
+  color: #fff;
+  text-decoration: none;
+  border-radius: .5rem;
+  font-size: .875rem;
+  padding-top: .5rem;
+  padding-bottom: .5rem;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+  box-shadow: 0 2px 7px 0 #b0eaff;
+}
+
+.card {
+  background-color: var(--card-background-color);
+  padding: 1rem;
+  margin-right: .75rem;
+  margin-bottom: .75rem;
+  border-radius: .5rem;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .1);
+}
 
 .theme-light {
   --page-background-color: #f5f6f9;
