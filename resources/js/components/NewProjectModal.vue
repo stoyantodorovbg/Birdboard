@@ -14,10 +14,10 @@
                                v-model="form.title"
                                name="title"
                                id="title"
-                               :class="errors.title ? 'border-error' : ''"
+                               :class="form.errors.title ? 'border-error' : ''"
                                class="border border-muted-light p-2 text-xs block w-full rounded">
-                        <span v-if="errors.title"
-                            v-text="errors.title[0]"
+                        <span v-if="form.errors.title"
+                            v-text="form.errors.title[0]"
                             class="text-xs italic text-error"></span>
                     </div>
                     <div class="mb-4">
@@ -26,10 +26,10 @@
                                   v-model="form.description"
                                   id="description"
                                   rows="7"
-                                  :class="errors.description ? 'border-error' : ''"
+                                  :class="form.errors.description ? 'border-error' : ''"
                                   class="border border-muted-light p-2 text-xs block w-full rounded"></textarea>
-                        <span v-if="errors.description"
-                              v-text="errors.description[0]"
+                        <span v-if="form.errors.description"
+                              v-text="form.errors.description[0]"
                               class="text-xs italic text-error"></span>
                     </div>
                 </div>
@@ -66,32 +66,36 @@
 </template>
 
 <script>
+    import BirdboardForm from '../utilities/BirdboardForm';
+
     export default {
         data() {
             return {
-                form: {
+                form: new BirdboardForm({
                     title: '',
                     description: '',
                     tasks: [
                         { body: ''}
                     ]
-                },
-
-                errors: {},
+                }),
             }
         },
 
         methods: {
             addTask() {
-                this.form.tasks.push({ value: ''})
+                this.form.tasks.push({ body: ''})
             },
 
-            submit() {
-                axios.post('/projects', this.form)
+            async submit() {
+                if(! this.form.tasks[0].body) {
+                    delete this.form.originalData.tasks;
+                }
+
+                this.form.submit('/projects', 'post')
                     .then(response => {
                         location = response.data.path;
                     }).catch(error => {
-                        this.errors = error.response.data.errors;
+                        console.log('Something went wrong.')
                     });
             }
         }

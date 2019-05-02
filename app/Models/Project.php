@@ -68,7 +68,7 @@ class Project extends Model
      *
      * @param array $tasks
      */
-    public function addTasks($tasks)
+    public function addTasks(array $tasks)
     {
         $this->tasks()->createMany($tasks);
     }
